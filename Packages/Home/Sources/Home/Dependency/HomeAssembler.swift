@@ -13,6 +13,7 @@ import Foundation
 protocol HomeAssembler {
   func navigator() -> HomeNavigator
   func view() -> HomeViewController
+  func viewModel() -> HomeViewModel
 }
 
 extension HomeAssembler where Self: Assembler {
@@ -21,6 +22,10 @@ extension HomeAssembler where Self: Assembler {
   }
   
   func view() -> HomeViewController {
-    return HomeViewController(navigator: navigator())
+    return HomeViewController(navigator: navigator(), viewModel: viewModel())
+  }
+  
+  func viewModel() -> HomeViewModel {
+    return HomeViewModel(getPhotosUseCase: useCase())
   }
 }

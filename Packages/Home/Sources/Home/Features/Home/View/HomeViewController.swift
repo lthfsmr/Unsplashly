@@ -10,9 +10,11 @@ import SnapKit
 
 class HomeViewController: UIViewController {
   private let navigator: HomeNavigator
+  private let viewModel: HomeViewModel
   
-  init(navigator: HomeNavigator) {
+  init(navigator: HomeNavigator, viewModel: HomeViewModel) {
     self.navigator = navigator
+    self.viewModel = viewModel
     super.init(nibName: nil, bundle: nil)
   }
   

@@ -9,7 +9,8 @@ import Common
 import Core
 import Foundation
 
-protocol Assembler: SplashAssembler,
+protocol Assembler: CommonAssembler,
+                    SplashAssembler,
                     HomeAssembler {
   var launcher: Launching? { get }
 }
