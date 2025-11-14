@@ -22,5 +22,9 @@
 	<string></string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+   <key>APP_BASE_URL</key>
+     <string>$(APP_BASE_URL)</string>
+     <key>APP_ACCESS_KEY</key>
+     <string>$(APP_ACCESS_KEY)</string>
 </dict>
 </plist>

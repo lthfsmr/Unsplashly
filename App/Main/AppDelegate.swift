@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   var window: UIWindow?
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    setupEnvironment()
+
     hostApp = application
     setupModules()
     
@@ -38,6 +40,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ])
   }
   
+  func setupEnvironment() {
+    #if DEVELOPMENT
+    AppConfig.current = AppConfig(environment: .development)
+    print(AppConfig.current.apiConfig.baseURL)
+    #elseif STAGING
+    AppConfig.current = AppConfig(environment: .staging)
+    #else  // PRODUCTION
+    AppConfig.current = AppConfig(environment: .production)
+    #endif
+  }
 }
 
 // MARK: Launcher
