@@ -1,0 +1,14 @@
+//
+//  Prod.xcconfig
+//  Unsplashly
+//
+//  Created by Luthfi Asmara on 14/11/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+APP_NAME = Unsplashly Dev
+APP_BUNDLE_ID = com.ios.Unsplashly.dev
+APP_BASE_URL = https:/$()/api.unsplash.com
+APP_ACCESS_KEY = d8a272c480b258b875d82f4062d6c52e4ae7f4b4656add778d71e9b638b2f8be
