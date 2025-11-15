@@ -7,13 +7,16 @@
 
 import Core
 import UIKit
+import Common
 
-protocol HomeNavigator: Navigator { }
+protocol HomeNavigator: Navigator {
+  func navigateToPhotoDetail(from: UIViewController, photo: Photo)
+}
 
 struct DefaultHomeNavigator: HomeNavigator {
   var viewController: UIViewController {
-    let viewController: HomeViewController = assembler.view()
-    return viewController
+    let view: HomeView = assembler.view()
+    return UINavigationController(rootViewController: view.viewController)
   }
 
   var behavior: NavigationBehavior = .replaceRoot
@@ -26,4 +29,8 @@ struct DefaultHomeNavigator: HomeNavigator {
     self.launcher = launcher
   }
   
+  func navigateToPhotoDetail(from: UIViewController, photo: Photo) {
+    let navigator: PhotoDetailNavigator = assembler.navigator()
+    navigator.navigateToPhotoDetail(from: from, photo: photo)
+  }
 }

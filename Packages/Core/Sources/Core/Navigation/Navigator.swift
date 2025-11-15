@@ -25,22 +25,32 @@ public protocol InitialNavigator {
 }
 
 public extension Navigator {
-  func navigate(from viewController: UIViewController) {
-    let destination = self.viewController
+  func navigate(to: UIViewController, from: UIViewController) {
     switch behavior {
     case .push(let animated):
-      viewController.navigationController?.pushViewController(destination, animated: animated)
+      from.navigationController?.pushViewController(to, animated: animated)
     case .present(let animated):
-      viewController.present(destination, animated: animated, completion: nil)
+      DispatchQueue.main.async {
+        from.present(to, animated: animated, completion: nil)
+      }
     case .replace:
-      if var stack = viewController.navigationController?.viewControllers {
-        stack.removeLast()
-        stack.append(destination)
-        viewController.navigationController?.viewControllers = stack
+      DispatchQueue.main.async {
+        if var stack = from.navigationController?.viewControllers {
+          stack.removeLast()
+          stack.append(to)
+          from.navigationController?.viewControllers = stack
+        }
       }
     case .replaceRoot:
-      viewController.view.window?.rootViewController = destination
+      DispatchQueue.main.async {
+        UIApplication.shared.windows.first?.rootViewController = to
+      }
     }
+  }
+  
+  func navigate(from viewController: UIViewController) {
+    let destination = self.viewController
+    navigate(to: destination, from: viewController)
   }
   
   func back(from: UIViewController) {
