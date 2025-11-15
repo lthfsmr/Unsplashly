@@ -43,7 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func setupEnvironment() {
     #if DEVELOPMENT
     AppConfig.current = AppConfig(environment: .development)
-    print(AppConfig.current.apiConfig.baseURL)
     #elseif STAGING
     AppConfig.current = AppConfig(environment: .staging)
     #else  // PRODUCTION

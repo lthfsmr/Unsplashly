@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Photo
-public struct Photo: Codable {
+public struct Photo: Codable, Hashable, Identifiable {
   public let id: String?
   public let createdAt: String?
   public let width: Int?
@@ -38,7 +38,7 @@ public struct Photo: Codable {
 }
 
 // MARK: - User
-public struct User: Codable {
+public struct User: Codable, Hashable {
   public let id: String?
   public let username: String?
   public let name: String?
@@ -63,23 +63,31 @@ public struct User: Codable {
 }
 
 // MARK: - ProfileImage
-public struct ProfileImage: Codable {
+public struct ProfileImage: Codable, Hashable {
   public let small: String?
   public let medium: String?
   public let large: String?
 }
 
 // MARK: - PhotoURLs
-public struct PhotoURLs: Codable {
+public struct PhotoURLs: Codable, Hashable {
   public let raw: String?
   public let full: String?
   public let regular: String?
   public let small: String?
   public let thumb: String?
+  
+  public init(regular: String?, thumb: String?) {
+    self.raw = nil
+    self.full = nil
+    self.regular = regular
+    self.small = nil
+    self.thumb = thumb
+  }
 }
 
 // MARK: - PhotoLinks
-public struct PhotoLinks: Codable {
+public struct PhotoLinks: Codable, Hashable {
   public let `self`: String?
   public let html: String?
   public let download: String?
@@ -92,7 +100,7 @@ public struct PhotoLinks: Codable {
 }
 
 // MARK: - UserLinks
-public struct UserLinks: Codable {
+public struct UserLinks: Codable, Hashable {
   public let `self`: String?
   public let html: String?
   public let photos: String?
@@ -107,7 +115,7 @@ public struct UserLinks: Codable {
 }
 
 // MARK: - CollectionItem
-public struct CollectionItem: Codable {
+public struct CollectionItem: Codable, Hashable {
   public let id: Int?
   public let title: String?
   public let publishedAt: String?
@@ -123,5 +131,23 @@ public struct CollectionItem: Codable {
     case updatedAt = "updated_at"
     case coverPhoto = "cover_photo"
     case user
+  }
+}
+
+extension Photo {
+  public init(localId: String, width: Int, height: Int, urls: PhotoURLs) {
+    self.id = localId
+    self.createdAt = nil
+    self.width = width
+    self.height = height
+    self.color = nil
+    self.blurHash = nil
+    self.likes = nil
+    self.likedByUser = nil
+    self.description = nil
+    self.user = nil
+    self.currentUserCollections = nil
+    self.urls = PhotoURLs(regular: urls.regular, thumb: urls.thumb)
+    self.links = nil
   }
 }

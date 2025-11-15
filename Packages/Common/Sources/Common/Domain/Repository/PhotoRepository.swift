@@ -9,5 +9,7 @@ import Combine
 import Foundation
 
 public protocol PhotosRepository {
-  func getPhotos(request: SearchPhotosRequest) -> AnyPublisher<BasePhotoResponse, GeneralError>
+  func getPhotos(request: SearchPhotosRequest) -> AnyPublisher<[Photo], GeneralError>
+  func getPhoto() -> AnyPublisher<[PhotoObject], Never>
+  func savePhoto(photo: [Photo])
 }

@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 public protocol GetPhotosUseCase {
-  func execute(request: SearchPhotosRequest) -> AnyPublisher<BasePhotoResponse, GeneralError>
+  func execute(request: SearchPhotosRequest) -> AnyPublisher<[Photo], GeneralError>
 }
 
 open class GetPhotos: GetPhotosUseCase {
@@ -19,7 +19,7 @@ open class GetPhotos: GetPhotosUseCase {
     self.repository = repository
   }
 
-  public func execute(request: SearchPhotosRequest) -> AnyPublisher<BasePhotoResponse, GeneralError> {
+  public func execute(request: SearchPhotosRequest) -> AnyPublisher<[Photo], GeneralError> {
     repository.getPhotos(request: request)
   }
 }

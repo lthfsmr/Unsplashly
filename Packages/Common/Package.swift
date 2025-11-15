@@ -13,7 +13,8 @@ let package = Package(
             targets: ["Common"]),
     ],
     dependencies: [
-      .package(path: "Core")
+      .package(path: "Core"),
+      .package(url: "https://github.com/realm/realm-swift.git", from: "10.54.6")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -21,7 +22,8 @@ let package = Package(
         .target(
             name: "Common",
             dependencies: [
-              "Core"
+              "Core",
+              .product(name: "RealmSwift", package: "realm-swift")
         ]),
         .testTarget(
             name: "CommonTests",
