@@ -8,6 +8,7 @@
 import Foundation
 
 public enum InfoPlistKey: String {
+  case appName = "APP_NAME"
   case baseUrl = "APP_BASE_URL"
   case accessKey = "APP_ACCESS_KEY"
   

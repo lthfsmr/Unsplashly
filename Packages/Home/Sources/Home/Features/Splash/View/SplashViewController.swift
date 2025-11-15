@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Core
 
 class SplashViewController: UIViewController {
   private let navigator: SplashNavigator
@@ -22,7 +23,7 @@ class SplashViewController: UIViewController {
 
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.text = "Unsplashly"
+    label.text = InfoPlistKey.appName.configValue
     label.font = UIFont.systemFont(ofSize: 28, weight: .bold)
     label.textColor = .white
     label.textAlignment = .center
