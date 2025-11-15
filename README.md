@@ -25,6 +25,7 @@ MVVM pattern and clean architecture with modularization. Separated module (Core,
 - Add more sophisticated UI (pinch-to-zoom detail view, pinch grid to change columns)
 - Add placeholder skeleton views while loading
 - Add sort/filter capability (based on color, date, orientation, etc.)
+- Add to favorite capability
 
 ## Notes
 - Unsplash usage: make sure to follow Unsplash API guidelines and attribution requirements.
