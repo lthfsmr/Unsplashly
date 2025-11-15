@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct FlowLayout<Data: Identifiable, Content: View>: View {
-  private let data: [Data]
-  private let columns: Int
-  private let spacing: CGFloat
-  private let content: (Data) -> Content
+public struct FlowLayout<Data: Identifiable, Content: View>: View {
+  public let data: [Data]
+  public let columns: Int
+  public let spacing: CGFloat
+  public let content: (Data) -> Content
   
-  init(
+  public init(
     _ data: [Data],
     columns: Int,
     spacing: CGFloat = 8,
@@ -38,7 +38,7 @@ struct FlowLayout<Data: Identifiable, Content: View>: View {
     return grid
   }
   
-  var body: some View {
+  public var body: some View {
     HStack(alignment: .top, spacing: spacing) {
       let columnsData = distributeItems()
       

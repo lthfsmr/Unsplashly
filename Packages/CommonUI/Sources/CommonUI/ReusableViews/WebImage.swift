@@ -9,15 +9,15 @@ import SwiftUI
 import Combine
 import Common
 
-struct WebImage: View {
-  @StateObject private var loader: ImageLoader
-  private let placeholder: AnyView
-  private let image: (Image) -> AnyView
-  private let width: Int?
-  private let height: Int?
-  private let onTapPhotoHandler: (() -> Void)?
+public struct WebImage: View {
+  @StateObject public var loader: ImageLoader
+  public let placeholder: AnyView
+  public let image: (Image) -> AnyView
+  public let width: Int?
+  public let height: Int?
+  public let onTapPhotoHandler: (() -> Void)?
   
-  init(
+  public init(
     url: String?,
     width: Int? = nil,
     height: Int? = nil,
@@ -41,7 +41,7 @@ struct WebImage: View {
     self.onTapPhotoHandler = onTapPhotoHandler
   }
   
-  var body: some View {
+  public var body: some View {
     content
       .aspectRatio(aspectRatio, contentMode: .fit)
       .onAppear(perform: loader.load)
@@ -75,7 +75,7 @@ struct WebImage: View {
   }
 }
 
-final class ImageLoader: ObservableObject {
+final public class ImageLoader: ObservableObject {
   @Published var image: UIImage?
   @Published var isLoading = false
   
