@@ -16,10 +16,13 @@ class HomeViewModel: ObservableObject {
   @Published var photoFromLocal: [PhotoObject] = []
   @Published var isLoading = false
   @Published var isLoadMore = true
+  @Published var isOffline = false
   
   var currentPage = 1
   @Published var initialQuery: String = "All"
   @Published var currentQuery: String = ""
+  @Published var shouldShowAlert: Bool = false
+  @Published var errorMessage: String = ""
   
   private let getPhotosUseCase: GetPhotosUseCase
   private let getPhotoOfflineUseCase: GetPhotoOfflineUseCase
@@ -47,9 +50,13 @@ class HomeViewModel: ObservableObject {
         guard let self else { return }
         if case .failure(let error) = completion {
           if case .noInternetConnection = error.mapToGeneralError()  {
-            loadLocalPhotos()
+            DispatchQueue.main.async {
+              self.isOffline = true
+            }
+            return
           }
           photo = .failed(reason: error)
+            
         }
         isLoading = false
       } receiveValue: { [weak self] newPhotos in
@@ -65,11 +72,12 @@ class HomeViewModel: ObservableObject {
         if photoFromLocal.isEmpty {
           saveToLocalUseCase.execute(photo: newPhotos)
         }
+        isLoading = false
       }
       .store(in: &cancellables)
   }
   
-  private func loadLocalPhotos() {
+  func loadLocalPhotos() {
     getPhotoOfflineUseCase .execute()
       .receive(on: DispatchQueue.main)
       .sink { _ in } receiveValue: { [weak self] localPhotos in
@@ -97,7 +105,7 @@ class HomeViewModel: ObservableObject {
       .debounce(for: .milliseconds(500), scheduler: DispatchQueue.main)
       .removeDuplicates()
       .sink { [weak self] query in
-        guard let self = self else { return }
+        guard let self = self, !isOffline else { return }
         self.resetAndSearch(query: !query.isEmpty ? query : initialQuery)
       }
       .store(in: &cancellables)

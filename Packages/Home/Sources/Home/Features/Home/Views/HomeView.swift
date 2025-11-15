@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CommonUI
+import Common
 
 struct HomeView: WrappedView {
   var holder: WrapperHolder = WrapperHolder()
@@ -57,7 +58,7 @@ struct HomeView: WrappedView {
                 )
                 .cornerRadius(16)
                 .onAppear {
-                  if viewModel.photos.last?.id == photo.id, viewModel.isLoadMore {
+                  if viewModel.photos.last?.id == photo.id && viewModel.isLoadMore && !viewModel.isOffline {
                     let isQueryEmpty = viewModel.currentQuery.isEmpty
                     viewModel.searchPhoto(
                       query: isQueryEmpty ? viewModel.initialQuery : viewModel.currentQuery,
@@ -88,6 +89,27 @@ struct HomeView: WrappedView {
     }
     .onAppear {
       viewModel.searchPhoto(query: viewModel.initialQuery)
+    }
+    .dataState(
+      state: viewModel.photo,
+      onFailed: { error in
+        viewModel.errorMessage = error.mapToGeneralError().errorMessage
+        viewModel.shouldShowAlert = true
+      }
+    )
+    .onChange(of: viewModel.isOffline) { isOffline in
+      if isOffline {
+        viewModel.errorMessage = GeneralError.noInternetConnection.errorMessage
+        viewModel.shouldShowAlert = true
+        viewModel.loadLocalPhotos()
+      }
+    }
+    .alert(isPresented: $viewModel.shouldShowAlert) {
+      Alert(
+        title: Text("Error"),
+        message: Text(viewModel.errorMessage),
+        dismissButton: .default(Text("OK"))
+      )
     }
   }
 }

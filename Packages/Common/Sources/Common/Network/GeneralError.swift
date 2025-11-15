@@ -8,7 +8,7 @@
 import Foundation
 
 /// Provides a unified way to handle various types of errors (network, decoding, etc.).
-public enum GeneralError: Swift.Error {
+public enum GeneralError: Error {
   case noInternetConnection
   case invalidURL
   case requestFailed(Error)
@@ -19,6 +19,31 @@ public enum GeneralError: Swift.Error {
   case invalidResponse
   case unknown
   case rateLimit(timer: Int)
+  
+  public var errorMessage: String {
+    switch self {
+      case .noInternetConnection:
+        return "No Internet Connection"
+      case .invalidURL:
+        return "Invalid URL"
+      case .requestFailed(let error):
+        return "Request Failed: \(error.localizedDescription)"
+      case .statusCode(let code):
+        return "Server returned an error (Status Code: \(code))"
+      case .decodingError:
+        return "Failed to decode data from server"
+      case .encodingFailed:
+        return "Failed to encode request data"
+      case .emptyData:
+        return "No data received from server"
+      case .invalidResponse:
+        return "Invalid response from server"
+      case .unknown:
+        return "An unknown error occurred"
+      case .rateLimit(let timeLeft):
+        return "Rate limit exceeded. Try again in \(Int(timeLeft)) seconds."
+    }
+  }
 }
 
 extension Error {
