@@ -8,14 +8,14 @@
 import Foundation
 
 public struct SearchPhotosRequest: Codable {
-  let query: String?
-  let page: Int?
-  let perPage: Int?
-  let orderBy: OrderBy?
-  let collections: String?
-  let contentFilter: ContentFilter?
-  let color: ColorFilter?
-  let orientation: Orientation?
+  public var query: String?
+  public var page: Int?
+  public var perPage: Int?
+  public var orderBy: OrderBy?
+  public var collections: String?
+  public var contentFilter: ContentFilter?
+  public var color: ColorFilter?
+  public var orientation: Orientation?
   
   enum CodingKeys: String, CodingKey {
     case query
@@ -29,28 +29,28 @@ public struct SearchPhotosRequest: Codable {
   }
 }
 
-enum OrderBy: String, Codable {
+public enum OrderBy: String, Codable {
   case latest
   case relevant
 }
 
-enum ContentFilter: String, Codable {
+public enum ContentFilter: String, Codable {
   case low
   case high
 }
 
-enum ColorFilter: String, Codable {
+public enum ColorFilter: String, Codable {
   case black_and_white, black, white, yellow, orange, red, purple, magenta, green, teal, blue
 }
 
-enum Orientation: String, Codable {
+public enum Orientation: String, Codable {
   case landscape
   case portrait
   case squarish
 }
 
 public extension SearchPhotosRequest {
-    init(query: String? = "random", page: Int?) {
+    init(query: String? = "", page: Int? = 1) {
         self.query = query
         self.page = page
         self.perPage = nil
