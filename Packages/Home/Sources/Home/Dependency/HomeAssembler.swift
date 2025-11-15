@@ -12,20 +12,42 @@ import Foundation
 
 protocol HomeAssembler {
   func navigator() -> HomeNavigator
-  func view() -> HomeViewController
+  func navigator() -> PhotoDetailNavigator
+  func view() -> HomeView
+  func view(viewModel: PhotoDetailViewModel) -> PhotoDetailView
   func viewModel() -> HomeViewModel
+  func viewModel() -> PhotoDetailViewModel
 }
 
 extension HomeAssembler where Self: Assembler {
-  func navigator() -> any HomeNavigator {
+  func navigator() -> HomeNavigator {
     return DefaultHomeNavigator(assembler: self, launcher: launcher)
   }
   
-  func view() -> HomeViewController {
-    return HomeViewController(navigator: navigator(), viewModel: viewModel())
+  func navigator() -> PhotoDetailNavigator {
+    return DefaultPhotoDetailNavigator(assembler: self, launcher: launcher)
+  }
+  
+  func view() -> HomeView {
+    return HomeView(navigator: navigator(), viewModel: viewModel())
+  }
+  
+  func view(viewModel: PhotoDetailViewModel) -> PhotoDetailView {
+    return PhotoDetailView(
+      navigator: navigator(),
+      viewModel: viewModel
+    )
   }
   
   func viewModel() -> HomeViewModel {
-    return HomeViewModel(getPhotosUseCase: useCase())
+    return HomeViewModel(
+      getPhotosUseCase: useCase(),
+      getPhotoOfflineUseCase: useCase(),
+      saveToLocalUseCase: useCase()
+    )
+  }
+  
+  func viewModel() -> PhotoDetailViewModel {
+    return PhotoDetailViewModel()
   }
 }
