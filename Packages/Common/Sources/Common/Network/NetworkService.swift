@@ -16,6 +16,10 @@ public final class NetworkService {
     api: ApiContract,
     output: T.Type
   ) -> AnyPublisher<T, GeneralError> {
+    guard ConnectivityManager.shared.isConnected else {
+      ConnectivityManager.shared.updateStatus()
+      return Fail(error: GeneralError.noInternetConnection).eraseToAnyPublisher()
+    }
     
     guard var url = URLComponents(string: api.baseURL.absoluteString + api.path) else {
       return Fail(error: .invalidURL).eraseToAnyPublisher()
@@ -58,7 +62,11 @@ public final class NetworkService {
         } else if let decodingError = error as? DecodingError {
           return GeneralError.decodingError(decodingError)
         } else {
-          return GeneralError.unknown
+          if ConnectivityManager.shared.isConnected {
+            return GeneralError.unknown
+          } else {
+            return GeneralError.noInternetConnection
+          }
         }
       }
       .eraseToAnyPublisher()
